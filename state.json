@@ -59,7 +59,17 @@
                 "베가"
             ],
             "answer": 2
+        },
+        {
+            "question": "무지개색은 몇가지인가요?",
+            "choices": [
+                "4개",
+                "5개",
+                "6개",
+                "7개"
+            ],
+            "answer": 4
         }
     ],
-    "best_score": 0
+    "best_score": 6
 }
