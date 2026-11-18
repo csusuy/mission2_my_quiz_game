@@ -238,16 +238,43 @@ class QuizGame:
             with open("state.json", "r", encoding="utf-8") as file:
                 data = json.load(file)
 
+            if not isinstance(data, dict):
+                raise ValueError("잘못된 데이터 형식")
+
+            if not isinstance(data.get("quizzes"), list):
+                raise ValueError("퀴즈 목록 형식이 잘못되었습니다.")
+
+            if not isinstance(data.get("best_score"), int):
+                raise ValueError("최고 점수 형식이 잘못되었습니다.")
+
             loaded_quizzes = []
 
             for item in data["quizzes"]:
+                if not isinstance(item, dict):
+                    raise ValueError("퀴즈 데이터 형식이 잘못되었습니다.")
+
+                question = item["question"]
+                choices = item["choices"]
+                answer = item["answer"]
+
+                if not isinstance(question, str) or not question.strip():
+                    raise ValueError("문제 형식이 잘못되었습니다.")
+
+                if not isinstance(choices, list) or len(choices) != 4:
+                    raise ValueError("선택지는 4개여야 합니다.")
+
+                if not all(isinstance(choice, str) and choice.strip() for choice in choices):
+                    raise ValueError("선택지 형식이 잘못되었습니다.")
+
+                if type(answer) is not int or not 1 <= answer <= 4:
+                    raise ValueError("정답 번호가 잘못되었습니다.")
+
                 loaded_quizzes.append(
-                    Quiz(
-                        item["question"],
-                        item["choices"],
-                        item["answer"]
-                    )
+                    Quiz(question, choices, answer)
                 )
+
+            if data["best_score"] < 0:
+                raise ValueError("최고 점수가 잘못되었습니다.")
 
             self.quizzes = loaded_quizzes
             self.best_score = data["best_score"]
