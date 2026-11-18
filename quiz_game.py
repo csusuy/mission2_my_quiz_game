@@ -131,7 +131,7 @@ class QuizGame:
                 self.show_quizzes()
 
             elif choice == 4:
-                print("점수 확인 기능은 준비 중입니다.")
+                self.show_best_score()
 
             elif choice == 5:
                 print("게임을 종료합니다. 감사합니다!")
@@ -188,3 +188,14 @@ class QuizGame:
             print(f"[{number}] {quiz.question}")
 
         print("----------------------------------------")
+    
+     # 최고 점수를 확인하는 기능
+    def show_best_score(self):
+        print("\n========================================")
+
+        if self.best_score == 0:
+            print("아직 퀴즈를 풀지 않았습니다.")
+        else:
+            print(f"🏆 최고 점수: {self.best_score}점")
+
+        print("========================================")
