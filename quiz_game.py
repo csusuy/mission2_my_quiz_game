@@ -1,4 +1,5 @@
 import json
+import random
 from quiz import Quiz
 
 
@@ -86,7 +87,10 @@ class QuizGame:
 
         print(f"\n📝 퀴즈를 시작합니다! (총 {total}문제)")
 
-        for index, quiz in enumerate(self.quizzes, start=1):
+        questions = self.quizzes.copy()
+        random.shuffle(questions)
+
+        for index, quiz in enumerate(questions, start=1):
             print("\n----------------------------------------")
             print(f"[문제 {index}]")
 
