@@ -46,3 +46,64 @@ class QuizGame:
         print("4. 점수 확인")
         print("5. 종료")
         print("========================================")
+
+     # 숫자를 안전하게 입력받는 기능
+    def get_valid_number(self, prompt, min_value, max_value):
+        while True:
+            user_input = input(prompt).strip()
+
+            if user_input == "":
+                print("⚠️ 빈 입력입니다. 다시 입력해 주세요.")
+                continue
+
+            try:
+                number = int(user_input)
+
+                if min_value <= number <= max_value:
+                    return number
+
+                print(
+                    f"⚠️ {min_value}~{max_value} 사이의 숫자를 입력하세요."
+                )
+
+            except ValueError:
+                print("⚠️ 숫자만 입력해 주세요.")
+
+    # 퀴즈를 진행하는 기능
+    def play_quiz(self):
+        if not self.quizzes:
+            print("등록된 퀴즈가 없습니다.")
+            return
+
+        score = 0
+        total = len(self.quizzes)
+
+        print(f"\n📝 퀴즈를 시작합니다! (총 {total}문제)")
+
+        for index, quiz in enumerate(self.quizzes, start=1):
+            print("\n----------------------------------------")
+            print(f"[문제 {index}]")
+
+            quiz.display()
+
+            answer = self.get_valid_number(
+                "정답 입력 (1~4): ", 1, 4
+            )
+
+            if quiz.is_correct(answer):
+                print("✅ 정답입니다!")
+                score += 1
+            else:
+                print(f"❌ 오답입니다! 정답은 {quiz.answer}번입니다.")
+
+        percentage = round(score / total * 100)
+
+        print("\n========================================")
+        print(f"🏆 결과: {total}문제 중 {score}문제 정답!")
+        print(f"점수: {percentage}점")
+
+        if score > self.best_score:
+            self.best_score = score
+            print("🎉 새로운 최고 점수입니다!")
+
+        print("========================================")    
