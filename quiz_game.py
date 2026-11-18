@@ -1,3 +1,4 @@
+import json
 from quiz import Quiz
 
 
@@ -39,6 +40,7 @@ class QuizGame:
 
         # 최고 점수
         self.best_score = 0
+        self.load_data()
 
     def show_menu(self):
         print("\n========================================")
@@ -110,6 +112,8 @@ class QuizGame:
             self.best_score = score
             print("🎉 새로운 최고 점수입니다!")
 
+        self.save_data()
+
         print("========================================")
     
     # 게임 전체 실행 기능
@@ -168,6 +172,7 @@ class QuizGame:
         new_quiz = Quiz(question, choices, answer)
 
         self.quizzes.append(new_quiz)
+        self.save_data()
 
         print("\n✅ 새로운 퀴즈가 추가되었습니다!")
     
@@ -199,3 +204,57 @@ class QuizGame:
             print(f"🏆 최고 점수: {self.best_score}점")
 
         print("========================================")
+
+     # 퀴즈와 최고 점수를 JSON 파일에 저장
+    def save_data(self):
+        data = {
+            "quizzes": [
+                {
+                    "question": quiz.question,
+                    "choices": quiz.choices,
+                    "answer": quiz.answer
+                }
+                for quiz in self.quizzes
+            ],
+            "best_score": self.best_score
+        }
+
+        try:
+            with open("state.json", "w", encoding="utf-8") as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
+
+            print("💾 데이터가 저장되었습니다.")
+
+        except OSError:
+            print("⚠️ 데이터 저장 중 오류가 발생했습니다.")
+
+    # JSON 파일에서 데이터 불러오기
+    def load_data(self):
+        try:
+            with open("state.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            loaded_quizzes = []
+
+            for item in data["quizzes"]:
+                loaded_quizzes.append(
+                    Quiz(
+                        item["question"],
+                        item["choices"],
+                        item["answer"]
+                    )
+                )
+
+            self.quizzes = loaded_quizzes
+            self.best_score = data["best_score"]
+
+            print("📂 저장된 데이터를 불러왔습니다.")
+
+        except FileNotFoundError:
+            print("📂 저장 파일이 없습니다. 기본 퀴즈를 사용합니다.")
+
+        except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+            print("⚠️ 저장 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
+
+        except OSError:
+            print("⚠️ 파일을 읽을 수 없습니다. 기본 데이터를 사용합니다.")
