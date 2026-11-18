@@ -65,3 +65,8 @@ UTF-8 인코딩과 JSON 형식을 사용합니다.
 - Python: 3.12.10
 - 개발 도구: Visual Studio Code
 - 버전 관리: Git / GitHub
+
+## Git Clone 및 Pull 실습
+
+GitHub 저장소를 별도의 폴더에 복제하고,
+README 파일을 수정한 후 원격 저장소에 반영하는 실습을 진행했습니다.
