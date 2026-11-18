@@ -110,4 +110,29 @@ class QuizGame:
             self.best_score = score
             print("🎉 새로운 최고 점수입니다!")
 
-        print("========================================")       
+        print("========================================")
+    
+    # 게임 전체 실행 기능
+    def run(self):
+        while True:
+            self.show_menu()
+
+            choice = self.get_valid_number(
+                "선택: ", 1, 5
+            )
+
+            if choice == 1:
+                self.play_quiz()
+
+            elif choice == 2:
+                print("퀴즈 추가 기능은 준비 중입니다.")
+
+            elif choice == 3:
+                print("퀴즈 목록 기능은 준비 중입니다.")
+
+            elif choice == 4:
+                print("점수 확인 기능은 준비 중입니다.")
+
+            elif choice == 5:
+                print("게임을 종료합니다. 감사합니다!")
+                break    
